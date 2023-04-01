@@ -2,3 +2,4 @@
 
 enableXsrfProtection = false 
 enableCORS = false 
+port = 8501
