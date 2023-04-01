@@ -87,7 +87,6 @@ def mapResultColumns(categorizedDf: pd.DataFrame, mappingDf:pd.DataFrame) -> pd.
 
     return mappingDf
 
-
 if __name__ == "__main__":
 
     ## SESSION STATE VARIABLE 

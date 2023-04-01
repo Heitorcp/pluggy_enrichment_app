@@ -112,7 +112,7 @@ def csvToJson(df:pd.DataFrame):
         return [(json_array)]
 
 
-def enrichmentApiCall(json_array):
+def enrichmentApiCall(json_array, clientUserId=None):
 
     """
     Calls the Data Enrichment API.
