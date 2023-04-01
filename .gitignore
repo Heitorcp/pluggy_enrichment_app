@@ -1,0 +1,8 @@
+#ENV FOLDER 
+env 
+
+#CACHE FILES 
+*.pyc 
+
+
+
