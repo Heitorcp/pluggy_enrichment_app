@@ -66,7 +66,7 @@ def numberRequests(df:pd.DataFrame) -> int:
     
 def createMapDicts(df:pd.DataFrame) -> dict():
 
-    mapCols = ["category", "step", "merchant.name", "merchant.businessName", "merchant.cnpj", "merchant"]
+    mapCols = ["category", "merchant.name", "merchant.businessName", "merchant.cnpj", "merchant"]
 
     map_dicts = {} 
 
