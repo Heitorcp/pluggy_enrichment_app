@@ -1,6 +1,12 @@
 #ENV FOLDER 
 env 
 
+#ENVIRONMENT FILES 
+.env 
+
+#RESULT CSV FILE 
+result.csv
+
 #CACHE FILES 
 *.pyc 
 
