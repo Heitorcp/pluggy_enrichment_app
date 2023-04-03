@@ -23,7 +23,7 @@ def dropDuplicates(df:pd.DataFrame) -> pd.DataFrame:
     return df_unique 
     
 def checkUser(client_id, client_secret, x_api_key:str):
-    createEnvFile(client_id, client_secret, x_api_key)
+    # createEnvFile(client_id, client_secret, x_api_key)
     st.session_state['authenticated'] = True
     with st.sidebar:
         st.success('Token Generated!', icon = "✅")
@@ -110,8 +110,9 @@ if __name__ == "__main__":
     ## AUTH
     if st.sidebar.button("Authenticate"):
         X_API_KEY = createApiKey(client_id, client_secret)
-        st.session_state['x-api-key'] = X_API_KEY
-        checkUser(client_id, client_secret, x_api_key=X_API_KEY)
+        if X_API_KEY:
+            st.session_state['x-api-key'] = X_API_KEY
+            checkUser(client_id, client_secret, x_api_key=X_API_KEY)
 
     if st.session_state['authenticated'] == True:
 
