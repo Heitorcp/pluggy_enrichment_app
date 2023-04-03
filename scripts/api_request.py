@@ -187,34 +187,34 @@ def concat_export_csv(lst_dfs, fileName:str="result") -> pd.DataFrame:
 
 def callSync(df:pd.DataFrame, fileFinalName:str):
 
-        arrays_lst = csvToJson(df)
+    arrays_lst = csvToJson(df)
 
-        responses = []
+    responses = []
 
-        if len(arrays_lst) > 1:
+    if len(arrays_lst) > 1:
+    
+        for index, json_array in enumerate(arrays_lst):
+                print(f"Request {index+1}")
+                try:
+                    response = enrichmentApiCall(json_array)
+                    if type(response) != pd.DataFrame:
+                        raise "The output is not a DataFrame"
+                    responses.append(response)    
+                except BaseException as e:
+                    raise e
+                            
+    else:
         
-            for index, json_array in enumerate(arrays_lst):
-                    print(f"Request {index+1}")
-                    try:
-                        response = enrichmentApiCall(json_array)
-                        if type(response) != pd.DataFrame:
-                            raise "The output is not a DataFrame"
-                        responses.append(response)    
-                    except BaseException as e:
-                        raise e
-                             
-        else:
-            
-            try:
-                response = enrichmentApiCall(arrays_lst[0]) #list
-                if type(response) != pd.DataFrame:
-                    raise "The output is not a DataFrame"
-                responses.append(response)
+        try:
+            response = enrichmentApiCall(arrays_lst[0]) #list
+            if type(response) != pd.DataFrame:
+                raise "The output is not a DataFrame"
+            responses.append(response)
 
-            except BaseException as e: 
-                raise e
+        except BaseException as e: 
+            raise e
 
-        concat_export_csv(responses, fileFinalName) 
+    concat_export_csv(responses, fileFinalName) 
 
 
 def callAsync(df:pd.DataFrame, fileFinalName:str, numberofRequests:int):
