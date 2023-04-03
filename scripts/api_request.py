@@ -112,7 +112,7 @@ def csvToJson(df:pd.DataFrame):
         return [(json_array)]
 
 
-def enrichmentApiCall(json_array, clientUserId=None):
+def enrichmentApiCall(json_array, x_api_key:str, clientUserId=None):
 
     """
     Calls the Data Enrichment API.
@@ -131,7 +131,7 @@ def enrichmentApiCall(json_array, clientUserId=None):
         "content-type":"application/json",
         "connection":"keep-alive",
         "date": date_now,
-        "X-API-KEY": os.environ.get("X_API_KEY")
+        "X-API-KEY": x_api_key
     }
 
     payload = {
@@ -185,7 +185,7 @@ def concat_export_csv(lst_dfs, fileName:str="result") -> pd.DataFrame:
         export_to_csv(lst_dfs[0], fileName=fileName)
 
 
-def callSync(df:pd.DataFrame, fileFinalName:str):
+def callSync(df:pd.DataFrame, fileFinalName:str, x_api_key:str):
 
     arrays_lst = csvToJson(df)
 
@@ -196,7 +196,7 @@ def callSync(df:pd.DataFrame, fileFinalName:str):
         for index, json_array in enumerate(arrays_lst):
                 print(f"Request {index+1}")
                 try:
-                    response = enrichmentApiCall(json_array)
+                    response = enrichmentApiCall(json_array, x_api_key)
                     if type(response) != pd.DataFrame:
                         raise "The output is not a DataFrame"
                     responses.append(response)    
@@ -206,7 +206,7 @@ def callSync(df:pd.DataFrame, fileFinalName:str):
     else:
         
         try:
-            response = enrichmentApiCall(arrays_lst[0]) #list
+            response = enrichmentApiCall(arrays_lst[0], x_api_key) #list
             if type(response) != pd.DataFrame:
                 raise "The output is not a DataFrame"
             responses.append(response)
@@ -217,7 +217,7 @@ def callSync(df:pd.DataFrame, fileFinalName:str):
     concat_export_csv(responses, fileFinalName) 
 
 
-def callAsync(df:pd.DataFrame, fileFinalName:str, numberofRequests:int):
+def callAsync(df:pd.DataFrame, fileFinalName:str, numberofRequests:int, x_api_key:str):
 
     async_results = []
 
@@ -239,7 +239,7 @@ def callAsync(df:pd.DataFrame, fileFinalName:str, numberofRequests:int):
 
             for index,json_array in enumerate(lst):
                 print(f"Request {index+1} sent", flush=True)
-                result = executor.submit(enrichmentApiCall, json_array)
+                result = executor.submit(enrichmentApiCall, json_array, x_api_key)
                 print("Result", result)
                 future_lst.append(result)      
 
