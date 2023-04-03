@@ -1,5 +1,3 @@
-import pandas as pd
-
 class InvalidFileException(Exception):
     """
     Raised when the input csv file does not match the Pluggy Enrichment API requirements

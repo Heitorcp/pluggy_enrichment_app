@@ -22,13 +22,11 @@ def dropDuplicates(df:pd.DataFrame) -> pd.DataFrame:
 
     return df_unique 
     
-def checkUser(client_id, client_secret):
-        if st.sidebar.button("Authenticate"):
-            X_API_KEY = createApiKey(client_id, client_secret) 
-            createEnvFile(client_id, client_secret, X_API_KEY)
-            st.session_state['authenticated'] = True
-            with st.sidebar:
-                st.success('Token Generated!', icon = "✅")
+def checkUser(client_id, client_secret, x_api_key:str):
+    # createEnvFile(client_id, client_secret, x_api_key)
+    st.session_state['authenticated'] = True
+    with st.sidebar:
+        st.success('Token Generated!', icon = "✅")
 
 def checkData(df:pd.DataFrame):
 
@@ -93,6 +91,9 @@ if __name__ == "__main__":
     if 'authenticated' not in st.session_state:
         st.session_state['authenticated'] = False
 
+    if 'x-api-key' not in st.session_state:
+        st.session_state['x-api-key'] = None
+
     st.markdown("![](https://emoji.slack-edge.com/TP18SFFM5/pluggy/aa88fa984d4d9448.png)\n # Pluggy Categorizer App :tada:")
 
     ## TEXT SIDEBAR
@@ -107,7 +108,12 @@ if __name__ == "__main__":
     st.markdown(":exclamation: The file must contain at least a ***description*** column")
 
     ## AUTH
-    checkUser(client_id, client_secret)
+    if st.sidebar.button("Authenticate"):
+        X_API_KEY = createApiKey(client_id, client_secret)
+        if X_API_KEY:
+            st.session_state['x-api-key'] = X_API_KEY
+            checkUser(client_id, client_secret, x_api_key=X_API_KEY)
+
     if st.session_state['authenticated'] == True:
 
         uploaded_csv = st.file_uploader(label="Upload the file to be categorized", type=['csv'], help="Files larger than 200Mb are not supported.")
@@ -137,10 +143,10 @@ if __name__ == "__main__":
                         array = csvToJson(df_unique_filled) 
 
                         if numberRequests(df_unique) > 200:
-                            callAsync(df_unique_filled, fileFinalName="result", numberofRequests=numberRequests(df_unique))
+                            callAsync(df_unique_filled, fileFinalName="result", numberofRequests=numberRequests(df_unique), x_api_key=st.session_state['x-api-key'])
 
                         else:
-                            callSync(df_unique_filled, fileFinalName="result")
+                            callSync(df_unique_filled, fileFinalName="result", x_api_key=st.session_state['x-api-key'])
 
                     st.success('File categorized!')
 
