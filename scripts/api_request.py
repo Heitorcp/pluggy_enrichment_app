@@ -1,5 +1,4 @@
 import requests
-import os
 import json
 import pandas as pd
 import numpy as np
@@ -7,12 +6,6 @@ from datetime import date
 import time
 import concurrent.futures
 from utils.exceptions import InvalidFutureResponse
-from dotenv import load_dotenv
-
-load_dotenv() 
-
-CLIENT_ID = os.environ.get("CLIENT_ID")
-CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 
 def split_list(list_a, chunk):
  
@@ -135,6 +128,7 @@ def enrichmentApiCall(json_array, x_api_key:str, clientUserId=None):
     }
 
     payload = {
+        #TO-DO - Add Client User ID
         "clientUserId": "123456789",
         "transactions": json_array #needs to be an array
     }
