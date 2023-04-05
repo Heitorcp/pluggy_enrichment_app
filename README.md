@@ -10,7 +10,7 @@ Also, follow them on social media
 - [LinkedIn](https://www.linkedin.com/company/pluggyai/) 
 - [Twitter](https://twitter.com/pluggyai)
 
-## Online App 
+## Online App :globe_with_meridians:
 
 You can use the app online [here](https://pluggycategorizer.streamlit.app/)
 
