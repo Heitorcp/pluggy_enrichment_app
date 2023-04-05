@@ -10,6 +10,12 @@ Also, follow them on social media
 - [LinkedIn](https://www.linkedin.com/company/pluggyai/) 
 - [Twitter](https://twitter.com/pluggyai)
 
+## Online App 
+
+You can use the app online [here](https://pluggycategorizer.streamlit.app/)
+
+Otherwise, you can install it locally following the Setup
+
 ## Setup 
 --- 
 
