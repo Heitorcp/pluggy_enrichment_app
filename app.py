@@ -9,12 +9,14 @@ st.set_page_config(layout="wide")
 
 def test_columns(df:pd.DataFrame):
 
-    if "description" in df.columns.values:
+    if "description" in df.columns.str.lower().values:
         return True
     else:
         raise InvalidFileException()
     
 def dropDuplicates(df:pd.DataFrame) -> pd.DataFrame:
+
+    df.columns = df.columns.str.lower()
 
     df_unique = df.loc[:, ['description']]
 
