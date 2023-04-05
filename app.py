@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
         if uploaded_csv:
 
-            df_raw = pd.read_csv(uploaded_csv)
+            df_raw = pd.read_csv(uploaded_csv, sep=None)
 
             if checkData(df_raw):
 
